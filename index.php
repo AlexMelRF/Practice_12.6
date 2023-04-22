@@ -2,7 +2,7 @@
 require ('date.php');
 require ('index.html');
 
-//returns array
+//returns array kind of key -> value
 function getPartsFromFullname($full_name_str) {
     $keys = ['surname', 'name', 'patronymic'];
     $values = explode(' ', $full_name_str);
@@ -18,7 +18,7 @@ function getShortName($full_name_str) {
     return $temp['name'].' '.mb_substr($temp['surname'], 0, 1).'.';
 }
 
-//returns -1 - female; 1 - male; 0 - undefined gender 
+//returns: -1 - female; 1 - male; 0 - undefined gender 
 function getGenderFromName($full_name_str) {
     $gender = 0;
     $full_name = getPartsFromFullname($full_name_str);
@@ -43,7 +43,6 @@ function getGenderFromName($full_name_str) {
 function getGenderDescription($persons_array) {
     $male_counter = 0;
     $female_counter = 0;
-    $undef_counter = 0;
     $gen_counter = 0;
     for ($i = 0; $i < count($persons_array); $i ++)    
     {    
@@ -52,9 +51,6 @@ function getGenderDescription($persons_array) {
             case '1':
                 $male_counter ++;
                 break;
-            case '0':
-                $undef_counter ++;
-                break;
             case '-1':
                 $female_counter ++;
                 break;
@@ -62,12 +58,12 @@ function getGenderDescription($persons_array) {
     }
     $result[] = round($female_counter / $gen_counter, 3) * 100;
     $result[] = round($male_counter / $gen_counter, 3) * 100;
-    $result[] = round($undef_counter / $gen_counter, 3) * 100;
+    $result[] = 100 - $result[0] - $result[1];
     return <<<OUTPUT
     Гендерный состав аудитории: <br>
-    -------------------------------------- <br>
-    Мужчины - $result[1]% <br>
+    --------------------------- <br>
     Женщины - $result[0]% <br>
+    Мужчины - $result[1]% <br>
     Не удалось определить - $result[2]% <br>
 OUTPUT;
 }
