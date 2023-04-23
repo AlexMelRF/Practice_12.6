@@ -4,3 +4,5 @@ temp/
 *.img
 *.md
 !readme.md
+*
+

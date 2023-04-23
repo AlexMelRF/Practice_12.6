@@ -1,5 +1,5 @@
 <?php
-require ('date.php');
+require ('data.php');
 require ('index.html');
 
 //returns array kind of key -> value
